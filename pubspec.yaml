@@ -26,4 +26,5 @@ flutter:
      - assets/images/facility_check.png
      - assets/images/risk_analysis.png
      - assets/images/workflow.png
+     - assets/images/doctor.png
      - assets/videos/intro.mp4

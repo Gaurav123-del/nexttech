@@ -1,5 +1,190 @@
+// import 'package:flutter/material.dart';
+// import 'signup_page.dart';
+
+// class StartPage extends StatefulWidget {
+//   const StartPage({super.key});
+
+//   @override
+//   State<StartPage> createState() => _StartPageState();
+// }
+
+// class _StartPageState extends State<StartPage> {
+//   final PageController _controller = PageController();
+//   int currentIndex = 0;
+
+//   void goToSignup() {
+//     Navigator.pushReplacement(
+//       context,
+//       MaterialPageRoute(
+//         builder: (_) => const SignupPage(),
+//       ),
+//     );
+//   }
+
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: const Color(0xffEEF2F8),
+//       body: SafeArea(
+//         child: Column(
+//           children: [
+
+//             /// 🔄 SWIPE PAGES
+//             Expanded(
+//               child: PageView(
+//                 controller: _controller,
+//                 onPageChanged: (index) {
+//                   setState(() => currentIndex = index);
+
+//                   if (index == 4) {
+//                     goToSignup();
+//                   }
+//                 },
+//                 children: const [
+//                   OnboardPage(
+//                     image: "assets/images/smart_referral.png",
+//                     title: "Smart Referral",
+//                     subtitle:
+//                         "AI helps doctors quickly find the best hospitals for emergency care",
+//                   ),
+//                   OnboardPage(
+//                     image: "assets/images/facility_check.png",
+//                     title: "Live Facility Check",
+//                     subtitle:
+//                         "Instantly verify ICU beds, oxygen supply and specialist doctors",
+//                   ),
+//                   OnboardPage(
+//                     image: "assets/images/risk_analysis.png",
+//                     title: "Risk Level Analysis",
+//                     subtitle:
+//                         "Understand patient urgency with intelligent risk assessment",
+//                   ),
+//                   OnboardPage(
+//                     image: "assets/images/workflow.png",
+//                     title: "Emergency Workflow",
+//                     subtitle:
+//                         "Streamline referral decisions during critical situations",
+//                   ),
+//                   OnboardPage(
+//                     image: "assets/images/doctor.png",
+//                     title: "Ready to Start",
+//                     subtitle:
+//                         "Begin AI powered rural referral support today",
+//                   ),
+//                 ],
+//               ),
+//             ),
+
+//             /// ⚪ PAGE INDICATOR
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: List.generate(
+//                 5,
+//                 (index) => AnimatedContainer(
+//                   duration: const Duration(milliseconds: 300),
+//                   margin: const EdgeInsets.all(4),
+//                   height: 8,
+//                   width: currentIndex == index ? 24 : 8,
+//                   decoration: BoxDecoration(
+//                     color: currentIndex == index
+//                         ? Colors.blue
+//                         : Colors.blue.withOpacity(0.2),
+//                     borderRadius: BorderRadius.circular(10),
+//                   ),
+//                 ),
+//               ),
+//             ),
+
+//             const SizedBox(height: 20),
+
+//             /// ⏭ SKIP BUTTON
+//             TextButton(
+//               onPressed: goToSignup,
+//               child: const Text(
+//                 "Skip",
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.w600,
+//                   color: Colors.blue,
+//                 ),
+//               ),
+//             ),
+
+//             const SizedBox(height: 20),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// /// 📄 ONBOARD PAGE
+// class OnboardPage extends StatelessWidget {
+//   final String image;
+//   final String title;
+//   final String subtitle;
+
+//   const OnboardPage({
+//     super.key,
+//     required this.image,
+//     required this.title,
+//     required this.subtitle,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 26),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+
+//           /// 🖼 BIG IMAGE
+//           Image.asset(
+//             image,
+//             height: 320, // 🔥 Increased size
+//             fit: BoxFit.contain,
+//           ),
+
+//           const SizedBox(height: 40),
+
+//           /// 🧠 BIG TITLE
+//           Text(
+//             title,
+//             textAlign: TextAlign.center,
+//             style: const TextStyle(
+//               fontSize: 32, // 🔥 Bigger
+//               fontWeight: FontWeight.bold,
+//               color: Color(0xff1C1C1C),
+//             ),
+//           ),
+
+//           const SizedBox(height: 16),
+
+//           /// ✨ BIG SUBTITLE
+//           Text(
+//             subtitle,
+//             textAlign: TextAlign.center,
+//             style: const TextStyle(
+//               fontSize: 18, // 🔥 Bigger
+//               height: 1.4,
+//               color: Colors.grey,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
-import 'signup_page.dart';
+import 'package:rural_referral_app/screens/signup_page.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -12,8 +197,7 @@ class _StartPageState extends State<StartPage> {
   final PageController _controller = PageController();
   int currentIndex = 0;
 
-  // 👉 Navigate to Signup Page
-  void goToSignup() {
+  void goToSignUp() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -31,54 +215,54 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF5F7FA),
+      backgroundColor: const Color(0xffEEF2F8),
       body: SafeArea(
         child: Column(
           children: [
 
-            // 🔄 SWIPE ONBOARDING
+            /// 🔄 ONBOARDING PAGES
             Expanded(
               child: PageView(
                 controller: _controller,
                 onPageChanged: (index) {
                   setState(() => currentIndex = index);
-
-                  // 👉 Last page → Signup
-                  if (index == 4) {
-                    goToSignup();
-                  }
                 },
                 children: const [
                   OnboardPage(
                     image: "assets/images/smart_referral.png",
                     title: "Smart Referral",
-                    subtitle: "AI helps doctors find best hospitals",
+                    subtitle:
+                        "AI helps doctors quickly find the best hospitals for emergency care",
                   ),
                   OnboardPage(
                     image: "assets/images/facility_check.png",
                     title: "Live Facility Check",
-                    subtitle: "Check ICU, Oxygen & Doctors instantly",
+                    subtitle:
+                        "Instantly verify ICU beds, oxygen supply and specialist doctors",
                   ),
                   OnboardPage(
                     image: "assets/images/risk_analysis.png",
                     title: "Risk Level Analysis",
-                    subtitle: "Know urgency before transfer",
+                    subtitle:
+                        "Understand patient urgency with intelligent risk assessment",
                   ),
                   OnboardPage(
                     image: "assets/images/workflow.png",
                     title: "Emergency Workflow",
-                    subtitle: "Save time during critical situations",
+                    subtitle:
+                        "Streamline referral decisions during critical situations",
                   ),
                   OnboardPage(
                     image: "assets/images/doctor.png",
                     title: "Ready to Start",
-                    subtitle: "Begin smart referral with AI support",
+                    subtitle:
+                        "Begin AI powered rural referral support today",
                   ),
                 ],
               ),
             ),
 
-            // ⚪ INDICATOR DOTS
+            /// ⚪ PAGE INDICATOR
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
@@ -87,11 +271,11 @@ class _StartPageState extends State<StartPage> {
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.all(4),
                   height: 8,
-                  width: currentIndex == index ? 22 : 8,
+                  width: currentIndex == index ? 24 : 8,
                   decoration: BoxDecoration(
                     color: currentIndex == index
-                        ? Colors.grey[700]
-                        : Colors.grey[300],
+                        ? Colors.blue
+                        : Colors.blue.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -100,17 +284,19 @@ class _StartPageState extends State<StartPage> {
 
             const SizedBox(height: 20),
 
-            // ⏭ SKIP BUTTON
-            TextButton(
-              onPressed: goToSignup,
-              child: const Text(
-                "Skip",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+            /// ✅ SKIP BUTTON ONLY ON LAST PAGE
+            if (currentIndex == 4)
+              TextButton(
+                onPressed: goToSignUp,
+                child: const Text(
+                  "Skip",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.blue,
+                  ),
                 ),
               ),
-            ),
 
             const SizedBox(height: 20),
           ],
@@ -120,7 +306,7 @@ class _StartPageState extends State<StartPage> {
   }
 }
 
-// 📄 ONBOARD PAGE WIDGET
+/// 📄 ONBOARD PAGE
 class OnboardPage extends StatelessWidget {
   final String image;
   final String title;
@@ -135,34 +321,43 @@ class OnboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          image,
-          height: 240,
-          fit: BoxFit.contain,
-        ),
-        const SizedBox(height: 30),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 26),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+
+          /// 🖼 BIG IMAGE
+          Image.asset(
+            image,
+            height: 320,
+            fit: BoxFit.contain,
           ),
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Text(
+
+          const SizedBox(height: 40),
+
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          Text(
             subtitle,
             textAlign: TextAlign.center,
             style: const TextStyle(
+              fontSize: 18,
+              height: 1.4,
               color: Colors.grey,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

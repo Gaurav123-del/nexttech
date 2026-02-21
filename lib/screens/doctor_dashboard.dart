@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'patient_referral_form.dart';
 
 class DoctorDashboard extends StatelessWidget {
   const DoctorDashboard({super.key});
@@ -8,215 +9,277 @@ class DoctorDashboard extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xffF4F6FA),
       body: Column(
-        children: [
+        children: const [
+          ConsultationHeader(),
+          Expanded(child: DashboardBody()),
+        ],
+      ),
+    );
+  }
+}
 
-          /// 🔵 CURVED MEDICAL HEADER
-          Container(
-            height: 220,
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xff3F51B5),
-                  Color(0xff2196F3),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+/// 🔵 CONSULTATION STYLE HEADER
+class ConsultationHeader extends StatelessWidget {
+  const ConsultationHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 60, 20, 25),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xff3F51B5), Color.fromARGB(255, 53, 132, 197)],
+        ),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// TOP ROW
+          Row(
+            children: const [
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, color: Colors.blue),
               ),
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(40),
+              Spacer(),
+              Text(
+                "Consultation",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Doctor Dashboard",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  "AI Powered Rural Referral System",
-                  style: TextStyle(color: Colors.white70),
-                ),
-              ],
+              Spacer(),
+              Icon(Icons.menu, color: Colors.white, size: 35),
+            ],
+          ),
+
+          SizedBox(height: 25),
+
+          /// TITLE
+          Text(
+            "Find Your Desired\nSpecialist",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
             ),
           ),
 
-          /// ⚪ MAIN CONTENT
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          SizedBox(height: 20),
 
-                  /// 🔴 EMERGENCY REFERRAL CARD
-                  Container(
-                    padding: const EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: Colors.red.shade400,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.emergency,
-                            color: Colors.white, size: 34),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Text(
-                            "Start Emergency Referral",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                          ),
-                          onPressed: () {},
-                          child: const Text(
-                            "Start",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+          /// SEARCH BAR
+          _SearchBar(),
+        ],
+      ),
+    );
+  }
+}
 
-                  const SizedBox(height: 24),
+/// 🔍 SEARCH BAR WIDGET
+class _SearchBar extends StatelessWidget {
+  const _SearchBar();
 
-                  const Text(
-                    "AI Risk Overview",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: const TextField(
+        decoration: InputDecoration(
+          hintText: "Search specialist or hospital",
+          border: InputBorder.none,
+          icon: Icon(Icons.search),
+        ),
+      ),
+    );
+  }
+}
 
-                  const SizedBox(height: 12),
+/// ⚪ DASHBOARD BODY
+class DashboardBody extends StatelessWidget {
+  const DashboardBody({super.key});
 
-                  /// 📊 STATS GRID
-                  Row(
-                    children: [
-                      Expanded(child: _statCard("Today's Cases", "12", Icons.people)),
-                      const SizedBox(width: 12),
-                      Expanded(child: _statCard("Critical", "3", Icons.warning)),
-                    ],
-                  ),
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          EmergencyCard(),
 
-                  const SizedBox(height: 12),
+          SizedBox(height: 24),
 
-                  Row(
-                    children: [
-                      Expanded(child: _statCard("Referred", "8", Icons.send)),
-                      const SizedBox(width: 12),
-                      Expanded(child: _statCard("Available Beds", "5", Icons.bed)),
-                    ],
-                  ),
+          Text(
+            "AI Risk Overview",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
 
-                  const SizedBox(height: 24),
+          SizedBox(height: 12),
 
-                  /// 🤖 AI REFERRAL INTELLIGENCE CARD
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.auto_awesome, color: Colors.blue, size: 30),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            "AI analyzes patient severity, hospital capacity, and transport feasibility to suggest the safest referral path.",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+          StatGrid(),
 
-                  const SizedBox(height: 24),
+          SizedBox(height: 24),
 
-                  const Text(
-                    "Recent Activity",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+          Text(
+            "Recent AI Referrals",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
 
-                  const SizedBox(height: 12),
+          SizedBox(height: 12),
 
-                  _activityTile("Trauma Case Referred", "District Hospital A"),
-                  _activityTile("ICU Case Critical", "Medical Center B"),
-                ],
-              ),
-            ),
+          ActivityTile(
+            title: "Trauma Case Referred",
+            subtitle: "District Hospital A",
+          ),
+          ActivityTile(
+            title: "Cardiac Case Critical",
+            subtitle: "Medical Center B",
           ),
         ],
       ),
     );
   }
+}
 
-  /// 🧩 STAT CARD
-  Widget _statCard(String title, String value, IconData icon) {
+/// 🚨 EMERGENCY CARD
+class EmergencyCard extends StatelessWidget {
+  const EmergencyCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.red.shade400, Colors.red.shade300],
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.emergency, color: Colors.white, size: 34),
+          const SizedBox(width: 12),
+          const Expanded(
+            child: Text(
+              "Start AI Emergency Referral",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PatientReferralForm()),
+              );
+            },
+            child: const Text("Start", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// 📊 STAT GRID
+class StatGrid extends StatelessWidget {
+  const StatGrid({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Row(
+          children: [
+            Expanded(child: StatCard("Today's Cases", "12", Icons.people)),
+            SizedBox(width: 12),
+            Expanded(child: StatCard("Critical", "3", Icons.warning)),
+          ],
+        ),
+        SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(child: StatCard("Referred", "8", Icons.send)),
+            SizedBox(width: 12),
+            Expanded(child: StatCard("Beds", "5", Icons.bed)),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// 🧩 STAT CARD
+class StatCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+
+  const StatCard(this.title, this.value, this.icon, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-          )
-        ],
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         children: [
-          Icon(icon, color: Colors.blue, size: 28),
-          const SizedBox(height: 10),
-          Text(value,
-              style:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          CircleAvatar(
+            backgroundColor: const Color(0xffE3F2FD),
+            child: Icon(icon, color: Colors.blue),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 4),
           Text(title, style: const TextStyle(color: Colors.grey)),
         ],
       ),
     );
   }
+}
 
-  /// 🧾 ACTIVITY TILE
-  Widget _activityTile(String title, String subtitle) {
+/// 🧾 ACTIVITY TILE
+class ActivityTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const ActivityTile({required this.title, required this.subtitle, super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
         children: [
-          const Icon(Icons.history, color: Colors.blue),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              "$title\n$subtitle",
-              style: const TextStyle(fontSize: 14),
-            ),
+          const CircleAvatar(
+            backgroundColor: Color(0xffE3F2FD),
+            child: Icon(Icons.history, color: Colors.blue),
           ),
+          const SizedBox(width: 12),
+          Expanded(child: Text("$title\n$subtitle")),
         ],
       ),
     );

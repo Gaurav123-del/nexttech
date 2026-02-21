@@ -1,5 +1,7 @@
+
+
 // import 'package:flutter/material.dart';
-// import 'signup_page.dart';
+// import 'package:rural_referral_app/screens/signup_page.dart';
 
 // class StartPage extends StatefulWidget {
 //   const StartPage({super.key});
@@ -12,7 +14,7 @@
 //   final PageController _controller = PageController();
 //   int currentIndex = 0;
 
-//   void goToSignup() {
+//   void goToSignUp() {
 //     Navigator.pushReplacement(
 //       context,
 //       MaterialPageRoute(
@@ -35,16 +37,12 @@
 //         child: Column(
 //           children: [
 
-//             /// 🔄 SWIPE PAGES
+//             /// 🔄 ONBOARDING PAGES
 //             Expanded(
 //               child: PageView(
 //                 controller: _controller,
 //                 onPageChanged: (index) {
 //                   setState(() => currentIndex = index);
-
-//                   if (index == 4) {
-//                     goToSignup();
-//                   }
 //                 },
 //                 children: const [
 //                   OnboardPage(
@@ -103,18 +101,19 @@
 
 //             const SizedBox(height: 20),
 
-//             /// ⏭ SKIP BUTTON
-//             TextButton(
-//               onPressed: goToSignup,
-//               child: const Text(
-//                 "Skip",
-//                 style: TextStyle(
-//                   fontSize: 18,
-//                   fontWeight: FontWeight.w600,
-//                   color: Colors.blue,
+//             /// ✅ SKIP BUTTON ONLY ON LAST PAGE
+//             if (currentIndex == 4)
+//               TextButton(
+//                 onPressed: goToSignUp,
+//                 child: const Text(
+//                   "Skip",
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.w600,
+//                     color: Colors.blue,
+//                   ),
 //                 ),
 //               ),
-//             ),
 
 //             const SizedBox(height: 20),
 //           ],
@@ -148,31 +147,28 @@
 //           /// 🖼 BIG IMAGE
 //           Image.asset(
 //             image,
-//             height: 320, // 🔥 Increased size
+//             height: 320,
 //             fit: BoxFit.contain,
 //           ),
 
 //           const SizedBox(height: 40),
 
-//           /// 🧠 BIG TITLE
 //           Text(
 //             title,
 //             textAlign: TextAlign.center,
 //             style: const TextStyle(
-//               fontSize: 32, // 🔥 Bigger
+//               fontSize: 32,
 //               fontWeight: FontWeight.bold,
-//               color: Color(0xff1C1C1C),
 //             ),
 //           ),
 
 //           const SizedBox(height: 16),
 
-//           /// ✨ BIG SUBTITLE
 //           Text(
 //             subtitle,
 //             textAlign: TextAlign.center,
 //             style: const TextStyle(
-//               fontSize: 18, // 🔥 Bigger
+//               fontSize: 18,
 //               height: 1.4,
 //               color: Colors.grey,
 //             ),
@@ -182,6 +178,9 @@
 //     );
 //   }
 // }
+
+
+
 
 import 'package:flutter/material.dart';
 import 'package:rural_referral_app/screens/signup_page.dart';
@@ -215,10 +214,32 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffEEF2F8),
+      backgroundColor: const Color.fromARGB(255, 83, 110, 151),
       body: SafeArea(
         child: Column(
           children: [
+
+            /// 🩺 APP LOGO + NAME
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                Image.asset(
+                  "assets/images/logo.png", // 👈 your logo file
+                  height: 200,
+                ),
+                SizedBox(height: 4),
+                Text(
+                  "Rural Referral AI",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 10),
 
             /// 🔄 ONBOARDING PAGES
             Expanded(
@@ -326,27 +347,22 @@ class OnboardPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
-          /// 🖼 BIG IMAGE
           Image.asset(
             image,
-            height: 320,
+            height: 360,
             fit: BoxFit.contain,
           ),
-
           const SizedBox(height: 40),
-
           Text(
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 32,
+              color: Colors.grey,
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 16),
-
           Text(
             subtitle,
             textAlign: TextAlign.center,

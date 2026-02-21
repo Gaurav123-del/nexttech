@@ -18,34 +18,51 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xffF3F6FB),
       body: Stack(
         children: [
-          /// 🔵 TOP GRADIENT HEADER
+
+          /// 🔵 TOP GRADIENT HEADER (MATCHED WITH SIGNUP)
           Container(
-            height: 300,
+            height: 270,
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xff3F51B5), Color(0xff2196F3)],
+                colors: [
+                  Color.fromARGB(255, 83, 110, 151),
+                  Color.fromARGB(255, 136, 143, 153),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.only(top: 70),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.local_hospital, color: Colors.white, size: 42),
-                  SizedBox(height: 10),
-                  Text(
-                    "HealthCare",
+
+                  /// ✅ LOGO
+                  Image.asset(
+                    "assets/images/logo.png",
+                    height: 90,
+                    fit: BoxFit.contain,
+                  ),
+
+                  const SizedBox(height: 6),
+
+                  const Text(
+                    "Rural Referral AI",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   Text(
-                    "Medical Center",
-                    style: TextStyle(color: Colors.white70, fontSize: 15),
+                    "Doctor Login",
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.85),
+                      fontSize: 15,
+                    ),
                   ),
                 ],
               ),
@@ -56,37 +73,37 @@ class _LoginPageState extends State<LoginPage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.72,
+              height: MediaQuery.of(context).size.height * 0.75,
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(50)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(50)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 20,
+                    offset: Offset(0, -5),
+                  ),
+                ],
               ),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
 
                     const Text(
                       "Welcome Back!",
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
+                        color: Colors.grey,
                       ),
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    const Text(
-                      "You will get best quality health care\nservice with the low cost",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey, fontSize: 15),
                     ),
 
                     const SizedBox(height: 30),
 
-                    /// 📱 PHONE FIELD
                     buildInputField(
                       hint: "+91 | Phone Number",
                       icon: Icons.phone,
@@ -94,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: 15),
 
-                    /// 🔒 PASSWORD FIELD
+                    /// 🔒 PASSWORD
                     TextField(
                       obscureText: hidePassword,
                       decoration: InputDecoration(
@@ -123,7 +140,6 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: 10),
 
-                    /// 🔗 FORGOT PASSWORD
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -141,13 +157,17 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         gradient: const LinearGradient(
-                          colors: [Color(0xff3F51B5), Color(0xff2196F3)],
+                          colors: [
+                            Color.fromARGB(255, 83, 110, 151),
+                            Color.fromARGB(255, 103, 117, 137),
+                          ],
                         ),
                       ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.transparent,
                           shadowColor: Colors.transparent,
+                          elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -162,14 +182,14 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: const Text(
                           "Sign in",
-                          style: TextStyle(fontSize: 16),
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 20),
 
-                    /// 🧾 GO TO SIGNUP
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -186,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: const Text(
                             "Signup",
                             style: TextStyle(
-                              color: Color(0xff2196F3),
+                              color: Color.fromARGB(255, 83, 110, 151),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -205,7 +225,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  /// ✨ Reusable Input Field Widget
+  /// ✨ INPUT FIELD
   Widget buildInputField({required String hint, required IconData icon}) {
     return TextField(
       decoration: InputDecoration(

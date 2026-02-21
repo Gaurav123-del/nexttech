@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'patient_referral_form.dart';
 
 class DoctorDashboard extends StatelessWidget {
@@ -7,71 +8,67 @@ class DoctorDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF4F6FA),
-      body: Column(
-        children: const [
-          ConsultationHeader(),
-          Expanded(child: DashboardBody()),
-        ],
+      backgroundColor: const Color.fromARGB(255, 157, 165, 181),
+      body: SafeArea(
+        child: Column(
+          children: const [
+            ConsultationHeader(),
+            Expanded(child: DashboardBody()),
+          ],
+        ),
       ),
     );
   }
 }
 
-/// 🔵 CONSULTATION STYLE HEADER
+/// 🔵 HEADER
 class ConsultationHeader extends StatelessWidget {
   const ConsultationHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 60, 20, 25),
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 25),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff3F51B5), Color.fromARGB(255, 53, 132, 197)],
+          colors: [
+            Color.fromARGB(255, 83, 110, 151),
+            Color.fromARGB(255, 136, 143, 153),
+          ],
         ),
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          /// TOP ROW
+        children: const [
           Row(
-            children: const [
+            children: [
               CircleAvatar(
-                radius: 20,
+                radius: 22,
                 backgroundColor: Colors.white,
-                child: Icon(Icons.person, color: Colors.blue),
+                child: Icon(Icons.person, color: Colors.blueGrey),
               ),
               Spacer(),
               Text(
                 "Consultation",
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold),
               ),
               Spacer(),
-              Icon(Icons.menu, color: Colors.white, size: 35),
+              Icon(Icons.menu, color: Colors.white, size: 32),
             ],
           ),
-
-          SizedBox(height: 25),
-
-          /// TITLE
+          SizedBox(height: 22),
           Text(
             "Find Your Desired\nSpecialist",
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 23,
-              fontWeight: FontWeight.bold,
-            ),
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
           ),
-
-          SizedBox(height: 20),
-
-          /// SEARCH BAR
+          SizedBox(height: 18),
           _SearchBar(),
         ],
       ),
@@ -79,17 +76,18 @@ class ConsultationHeader extends StatelessWidget {
   }
 }
 
-/// 🔍 SEARCH BAR WIDGET
 class _SearchBar extends StatelessWidget {
   const _SearchBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: 50,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
+        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8)],
       ),
       child: const TextField(
         decoration: InputDecoration(
@@ -102,39 +100,37 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-/// ⚪ DASHBOARD BODY
+/// ⚪ BODY
 class DashboardBody extends StatelessWidget {
   const DashboardBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           EmergencyCard(),
-
-          SizedBox(height: 24),
-
+          SizedBox(height: 26),
           Text(
             "AI Risk Overview",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 20,
+                color: Colors.blueGrey,
+                fontWeight: FontWeight.bold),
           ),
-
-          SizedBox(height: 12),
-
+          SizedBox(height: 14),
           StatGrid(),
-
-          SizedBox(height: 24),
-
+          SizedBox(height: 26),
           Text(
             "Recent AI Referrals",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 20,
+                color: Colors.blueGrey,
+                fontWeight: FontWeight.bold),
           ),
-
-          SizedBox(height: 12),
-
+          SizedBox(height: 14),
           ActivityTile(
             title: "Trauma Case Referred",
             subtitle: "District Hospital A",
@@ -155,39 +151,59 @@ class EmergencyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.red.shade400, Colors.red.shade300],
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return GlassCard(
       child: Row(
         children: [
-          const Icon(Icons.emergency, color: Colors.white, size: 34),
-          const SizedBox(width: 12),
+          const Icon(Icons.emergency, color: Color(0xff536E97), size: 36),
+          const SizedBox(width: 14),
           const Expanded(
             child: Text(
               "Start AI Emergency Referral",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 18,
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold),
             ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-            onPressed: () {
+          BlinkingStartButton(
+            onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const PatientReferralForm()),
+                MaterialPageRoute(
+                    builder: (_) => const PatientReferralForm()),
               );
             },
-            child: const Text("Start", style: TextStyle(color: Colors.red)),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// ⭐ GLASS CARD
+class GlassCard extends StatelessWidget {
+  final Widget child;
+  const GlassCard({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(22),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.75),
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: Colors.white.withOpacity(0.4)),
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, blurRadius: 10)
+            ],
+          ),
+          child: child,
+        ),
       ),
     );
   }
@@ -204,15 +220,15 @@ class StatGrid extends StatelessWidget {
         Row(
           children: [
             Expanded(child: StatCard("Today's Cases", "12", Icons.people)),
-            SizedBox(width: 12),
+            SizedBox(width: 14),
             Expanded(child: StatCard("Critical", "3", Icons.warning)),
           ],
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 14),
         Row(
           children: [
             Expanded(child: StatCard("Referred", "8", Icons.send)),
-            SizedBox(width: 12),
+            SizedBox(width: 14),
             Expanded(child: StatCard("Beds", "5", Icons.bed)),
           ],
         ),
@@ -221,7 +237,7 @@ class StatGrid extends StatelessWidget {
   }
 }
 
-/// 🧩 STAT CARD
+/// 🧩 STAT CARD WITH BACKGROUND IMAGE
 class StatCard extends StatelessWidget {
   final String title;
   final String value;
@@ -232,55 +248,129 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
+      height: 130,
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Stack(
         children: [
-          CircleAvatar(
-            backgroundColor: const Color(0xffE3F2FD),
-            child: Icon(icon, color: Colors.blue),
+
+          /// 🖼️ FULL IMAGE BACKGROUND (NO EFFECT)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15), // 👈 radius 15
+            child: Image.asset(
+              "assets/images/bg_shape.png",
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+            ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+
+          /// ⭐ CONTENT ABOVE IMAGE
+          Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 18,
+                  backgroundColor: const Color(0xffD9DEE6),
+                  child: Icon(icon, color: const Color(0xff536E97)),
+                ),
+
+                const Spacer(),
+
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 4),
-          Text(title, style: const TextStyle(color: Colors.grey)),
+        ],
+      ),
+    );
+  }
+}
+/// 🧾 ACTIVITY TILE
+class ActivityTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const ActivityTile(
+      {required this.title, required this.subtitle, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassCard(
+      child: Row(
+        children: [
+          const CircleAvatar(
+            backgroundColor: Color(0xffE3F2FD),
+            child: Icon(Icons.history, color: Color(0xff536E97)),
+          ),
+          const SizedBox(width: 14),
+          Expanded(child: Text("$title\n$subtitle")),
         ],
       ),
     );
   }
 }
 
-/// 🧾 ACTIVITY TILE
-class ActivityTile extends StatelessWidget {
-  final String title;
-  final String subtitle;
+/// 🔴 BLINKING BUTTON
+class BlinkingStartButton extends StatefulWidget {
+  final VoidCallback onTap;
+  const BlinkingStartButton({super.key, required this.onTap});
 
-  const ActivityTile({required this.title, required this.subtitle, super.key});
+  @override
+  State<BlinkingStartButton> createState() => _BlinkingStartButtonState();
+}
+
+class _BlinkingStartButtonState extends State<BlinkingStartButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+
+    _opacity =
+        Tween<double>(begin: 1.0, end: 0.5).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            backgroundColor: Color(0xffE3F2FD),
-            child: Icon(Icons.history, color: Colors.blue),
-          ),
-          const SizedBox(width: 12),
-          Expanded(child: Text("$title\n$subtitle")),
-        ],
+    return FadeTransition(
+      opacity: _opacity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 204, 16, 38),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
+        onPressed: widget.onTap,
+        child: const Text("Start", style: TextStyle(color: Colors.white)),
       ),
     );
   }

@@ -10,7 +10,6 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-
   bool hidePassword = true;
 
   @override
@@ -27,21 +26,27 @@ class _SignupPageState extends State<SignupPage> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xff3F51B5),
-                  Color.fromARGB(255, 55, 132, 196),
+                  Color.fromARGB(255, 83, 110, 151),
+                  Color.fromARGB(255, 136, 143, 153),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.only(top: 60),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60),
               child: Column(
                 children: [
-                  Icon(Icons.local_hospital,
-                      color: Colors.white, size: 42),
-                  SizedBox(height: 10),
-                  Text(
+
+                  // ✅ LOGO ADDED HERE
+                  Image.asset(
+                    "assets/images/logo.png",
+                    height: 90,
+                    fit: BoxFit.contain,
+                  ),
+
+                  const SizedBox(height: 10),
+                  const Text(
                     "Rural Referral AI",
                     style: TextStyle(
                       color: Colors.white,
@@ -49,9 +54,13 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
+
+                  const Text(
                     "Doctor Registration",
-                    style: TextStyle(color: Colors.white70,fontSize: 15),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 15,
+                    ),
                   ),
                 ],
               ),
@@ -67,57 +76,40 @@ class _SignupPageState extends State<SignupPage> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(50),
-                ),
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(50)),
               ),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-
                     const SizedBox(height: 50),
 
                     const Text(
                       "Create Account",
                       style: TextStyle(
                         fontSize: 30,
+                        color: Colors.grey,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
 
                     const SizedBox(height: 30),
 
-                    // 👨‍⚕️ Doctor Name
-                    buildInput(
-                      hint: "Doctor Name",
-                      icon: Icons.person,
-                    ),
-
-                    const SizedBox(height: 15),
-                    buildInput(
-                      hint: "Hospital Id ",
-                      icon: Icons.person,
-                    ),
-
+                    buildInput(hint: "Doctor Name", icon: Icons.person),
                     const SizedBox(height: 15),
 
-                    // 🏥 Hospital Name
-                    buildInput(
-                      hint: "Hospital Name",
-                      icon: Icons.local_hospital,
-                    ),
-
+                    buildInput(hint: "Hospital Id", icon: Icons.badge),
                     const SizedBox(height: 15),
 
-                    // 📧 Email
                     buildInput(
-                      hint: "Gmail",
-                      icon: Icons.email,
-                    ),
-
+                        hint: "Hospital Name",
+                        icon: Icons.local_hospital),
                     const SizedBox(height: 15),
 
-                    // 🔒 Password
+                    buildInput(hint: "Gmail", icon: Icons.email),
+                    const SizedBox(height: 15),
+
+                    // 🔒 PASSWORD
                     TextField(
                       obscureText: hidePassword,
                       decoration: InputDecoration(
@@ -154,8 +146,8 @@ class _SignupPageState extends State<SignupPage> {
                         borderRadius: BorderRadius.circular(30),
                         gradient: const LinearGradient(
                           colors: [
-                            Color(0xff3F51B5),
-                            Color.fromARGB(255, 59, 135, 197),
+                            Color.fromARGB(255, 83, 110, 151),
+                            Color.fromARGB(255, 103, 117, 137),
                           ],
                         ),
                       ),
@@ -171,21 +163,22 @@ class _SignupPageState extends State<SignupPage> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const DoctorDashboard(),
+                              builder: (_) =>
+                                  const DoctorDashboard(),
                             ),
                             (route) => false,
                           );
                         },
                         child: const Text(
                           "Create Account",
-                          style: TextStyle(color: Colors.white,fontSize: 16),
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 20),
 
-                    // 🔁 GO TO LOGIN
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -202,7 +195,7 @@ class _SignupPageState extends State<SignupPage> {
                           child: const Text(
                             "Login",
                             style: TextStyle(
-                              color: Color(0xff2196F3),
+                              color: Color.fromARGB(255, 83, 110, 151),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -221,7 +214,7 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // ✨ Reusable Input Widget
+  // ✨ REUSABLE INPUT
   Widget buildInput({required String hint, required IconData icon}) {
     return TextField(
       decoration: InputDecoration(

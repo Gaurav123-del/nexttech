@@ -27,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
   bool isLoading = false;
 
 
-  final String baseUrl = "http://172.16.87.181:8080";
+  final String baseUrl = "http://159.69.50.201:8081";
 
   Future<void> registerDoctor() async {
     if (nameController.text.isEmpty ||

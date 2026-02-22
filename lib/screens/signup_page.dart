@@ -1,4 +1,9 @@
+
+
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:rural_referral_app/screens/login_up.dart';
 import 'doctor_dashboard.dart';
 
@@ -11,6 +16,68 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool hidePassword = true;
+
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController hospitalIdController = TextEditingController();
+  final TextEditingController hospitalNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
+
+
+  final String baseUrl = "http://172.16.87.181:8080";
+
+  Future<void> registerDoctor() async {
+    if (nameController.text.isEmpty ||
+        hospitalIdController.text.isEmpty ||
+        hospitalNameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty) {
+      showMessage("Please fill all fields");
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final response = await http.post(
+        Uri.parse("$baseUrl/auth/register"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "name": nameController.text.trim(),
+          "hospitalId": hospitalIdController.text.trim(),
+          "hospitalName": hospitalNameController.text.trim(),
+          "email": emailController.text.trim(),
+          "password": passwordController.text.trim(),
+          "role": "DOCTOR"
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const DoctorDashboard()),
+          (route) => false,
+        );
+      } else {
+        showMessage("Registration Failed: ${response.body}");
+      }
+    } catch (e) {
+      showMessage("Error: $e");
+    }
+
+    setState(() => isLoading = false);
+  }
+
+  void showMessage(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +105,6 @@ class _SignupPageState extends State<SignupPage> {
               child: Column(
                 children: [
 
-                  // ✅ LOGO ADDED HERE
                   Image.asset(
                     "assets/images/logo.png",
                     height: 90,
@@ -67,7 +133,6 @@ class _SignupPageState extends State<SignupPage> {
             ),
           ),
 
-          // ⚪ CURVED WHITE CONTAINER
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -95,22 +160,32 @@ class _SignupPageState extends State<SignupPage> {
 
                     const SizedBox(height: 30),
 
-                    buildInput(hint: "Doctor Name", icon: Icons.person),
-                    const SizedBox(height: 15),
-
-                    buildInput(hint: "Hospital Id", icon: Icons.badge),
+                    buildInput(
+                        controller: nameController,
+                        hint: "Doctor Name",
+                        icon: Icons.person),
                     const SizedBox(height: 15),
 
                     buildInput(
+                        controller: hospitalIdController,
+                        hint: "Hospital Id",
+                        icon: Icons.badge),
+                    const SizedBox(height: 15),
+
+                    buildInput(
+                        controller: hospitalNameController,
                         hint: "Hospital Name",
                         icon: Icons.local_hospital),
                     const SizedBox(height: 15),
 
-                    buildInput(hint: "Gmail", icon: Icons.email),
+                    buildInput(
+                        controller: emailController,
+                        hint: "Gmail",
+                        icon: Icons.email),
                     const SizedBox(height: 15),
 
-                    // 🔒 PASSWORD
                     TextField(
+                      controller: passwordController,
                       obscureText: hidePassword,
                       decoration: InputDecoration(
                         hintText: "Password",
@@ -138,7 +213,6 @@ class _SignupPageState extends State<SignupPage> {
 
                     const SizedBox(height: 50),
 
-                    // 🔵 CREATE ACCOUNT BUTTON
                     Container(
                       width: double.infinity,
                       height: 55,
@@ -159,21 +233,15 @@ class _SignupPageState extends State<SignupPage> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  const DoctorDashboard(),
-                            ),
-                            (route) => false,
-                          );
-                        },
-                        child: const Text(
-                          "Create Account",
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.white),
-                        ),
+                        onPressed: isLoading ? null : registerDoctor,
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : const Text(
+                                "Create Account",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
                       ),
                     ),
 
@@ -214,9 +282,13 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  // ✨ REUSABLE INPUT
-  Widget buildInput({required String hint, required IconData icon}) {
+  Widget buildInput({
+    required TextEditingController controller,
+    required String hint,
+    required IconData icon,
+  }) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon),

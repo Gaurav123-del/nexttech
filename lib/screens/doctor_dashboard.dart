@@ -276,7 +276,7 @@ class StatGrid extends StatelessWidget {
   }
 }
 
-/// 🧩 STAT CARD WITH BACKGROUND IMAGE
+
 class StatCard extends StatelessWidget {
   final String title;
   final String value;
@@ -292,7 +292,7 @@ class StatCard extends StatelessWidget {
       child: Stack(
         children: [
 
-          /// 🖼️ FULL IMAGE BACKGROUND (NO EFFECT)
+          
           ClipRRect(
             borderRadius: BorderRadius.circular(15), // 👈 radius 15
             child: Image.asset(

@@ -1,4 +1,10 @@
+
+
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'doctor_dashboard.dart';
 import 'signup_page.dart';
 
@@ -12,6 +18,65 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool hidePassword = true;
 
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
+
+  // 🔥 Emulator → 10.0.2.2
+  // 🔥 Real device → use your laptop IP
+  final String baseUrl = "http://172.16.87.181:8080";
+
+  Future<void> loginDoctor() async {
+    if (phoneController.text.isEmpty || passwordController.text.isEmpty) {
+      showMessage("Please fill all fields");
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      final response = await http.post(
+        Uri.parse("$baseUrl/auth/login"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "hospitalId": phoneController.text.trim(), 
+          // 👆 change this if backend expects email instead
+          "password": passwordController.text.trim(),
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        // ✅ Save JWT token
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString("token", data["token"]);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const DoctorDashboard(),
+          ),
+        );
+      } else {
+        showMessage("Login Failed: ${response.body}");
+      }
+    } catch (e) {
+      showMessage("Error: $e");
+    }
+
+    setState(() => isLoading = false);
+  }
+
+  void showMessage(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Stack(
         children: [
 
-          /// 🔵 TOP GRADIENT HEADER (MATCHED WITH SIGNUP)
+          /// 🔵 TOP HEADER
           Container(
             height: 270,
             width: double.infinity,
@@ -39,7 +104,6 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                  /// ✅ LOGO
                   Image.asset(
                     "assets/images/logo.png",
                     height: 90,
@@ -69,24 +133,17 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
 
-          /// ⚪ CURVED WHITE CONTAINER
+          /// ⚪ WHITE CONTAINER
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.75,
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(50)),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 20,
-                    offset: Offset(0, -5),
-                  ),
-                ],
+                    BorderRadius.vertical(top: Radius.circular(50)),
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -105,14 +162,15 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 30),
 
                     buildInputField(
-                      hint: "+91 | Phone Number",
-                      icon: Icons.phone,
+                      controller: phoneController,
+                      hint: "+91 | Hospital ID",
+                      icon: Icons.badge,
                     ),
 
                     const SizedBox(height: 15),
 
-                    /// 🔒 PASSWORD
                     TextField(
+                      controller: passwordController,
                       obscureText: hidePassword,
                       decoration: InputDecoration(
                         hintText: "Password",
@@ -138,19 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 10),
-
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Text("Forgot Password?"),
-                      ),
-                    ),
-
                     const SizedBox(height: 20),
 
-                    /// 🔵 SIGN IN BUTTON
                     Container(
                       width: double.infinity,
                       height: 55,
@@ -172,19 +219,15 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const DoctorDashboard(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Sign in",
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.white),
-                        ),
+                        onPressed: isLoading ? null : loginDoctor,
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : const Text(
+                                "Sign in",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
                       ),
                     ),
 
@@ -225,9 +268,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  /// ✨ INPUT FIELD
-  Widget buildInputField({required String hint, required IconData icon}) {
+  Widget buildInputField({
+    required TextEditingController controller,
+    required String hint,
+    required IconData icon,
+  }) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon),

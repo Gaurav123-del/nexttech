@@ -9,15 +9,11 @@ class PatientReferralForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff9DA5B5),
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text("Patient Referral Form"),
-        backgroundColor: const Color.fromARGB(255, 83, 110, 151),
-      ),
+
       body: Stack(
         children: [
 
-          /// 🔥 SOFT GLASS BACKGROUND EFFECT
+          /// 🔥 SOFT BACKGROUND
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -31,45 +27,95 @@ class PatientReferralForm extends StatelessWidget {
             ),
           ),
 
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(18),
-            child: Column(
-              children: [
+          Column(
+            children: [
 
-                /// 🩺 DISEASE FIELD
-                GlassInput("Disease / Injury", Icons.medical_services),
-                const SizedBox(height: 14),
-
-                GlassInput("Blood Pressure", Icons.favorite),
-                const SizedBox(height: 14),
-
-                GlassInput("Oxygen Level", Icons.air),
-                const SizedBox(height: 14),
-
-                GlassInput("Heart Rate", Icons.monitor_heart),
-                const SizedBox(height: 14),
-
-                GlassInput(
-                  "Required Treatment (ICU / Surgery)",
-                  Icons.local_hospital,
+              /// 🔵 PREMIUM TOP HEADER
+              Container(
+                height: 180,
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.only(top: 60, left: 20, right: 20),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 83, 110, 151),
+                      Color.fromARGB(255, 136, 143, 153),
+                    ],
+                  ),
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(40)),
                 ),
-
-                const SizedBox(height: 30),
-
-                /// 🤖 GLASS BUTTON
-                GlassButton(
-                  text: "Check AI Hospitals",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const AIReferralResultScreen(),
-                      ),
-                    );
-                  },
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Patient Referral Form",
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ],
-            ),
+              ),
+
+              /// ⭐ FORM AREA
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(18),
+                  child: GlassFormCard(
+                    child: Column(
+                      children: [
+
+                        GlassInput(
+                          "Disease / Injury",
+                          Icons.medical_services,
+                        ),
+                        const SizedBox(height: 18),
+
+                        GlassInput(
+                          "Blood Pressure",
+                          Icons.favorite,
+                        ),
+                        const SizedBox(height: 18),
+
+                        GlassInput(
+                          "Oxygen Level",
+                          Icons.air,
+                        ),
+                        const SizedBox(height: 18),
+
+                        GlassInput(
+                          "Heart Rate",
+                          Icons.monitor_heart,
+                        ),
+                        const SizedBox(height: 18),
+
+                        GlassInput(
+                          "Required Treatment (ICU / Surgery)",
+                          Icons.local_hospital,
+                        ),
+
+                        const SizedBox(height: 35),
+
+                        GlassButton(
+                          text: "Check AI Hospitals",
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    const AIReferralResultScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -77,7 +123,32 @@ class PatientReferralForm extends StatelessWidget {
   }
 }
 
-/// ⭐ GLASS INPUT FIELD
+/// ⭐ BIG GLASS FORM CONTAINER
+class GlassFormCard extends StatelessWidget {
+  final Widget child;
+  const GlassFormCard({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(28),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.65),
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: Colors.white.withOpacity(0.3)),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+/// ⭐ GLASS INPUT (TALLER LIKE PHONE UI)
 class GlassInput extends StatelessWidget {
   final String hint;
   final IconData icon;
@@ -87,17 +158,20 @@ class GlassInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(22),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
         child: TextField(
+          style: const TextStyle(fontSize: 15),
           decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 22),
             hintText: hint,
             prefixIcon: Icon(icon, color: const Color(0xff536E97)),
             filled: true,
             fillColor: Colors.white.withOpacity(0.75),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(22),
               borderSide: BorderSide.none,
             ),
           ),
@@ -107,7 +181,7 @@ class GlassInput extends StatelessWidget {
   }
 }
 
-/// 🔵 GLASS BUTTON
+/// 🔵 PREMIUM BUTTON
 class GlassButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
@@ -116,27 +190,25 @@ class GlassButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-        child: SizedBox(
-          width: double.infinity,
-          height: 55,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  const Color.fromARGB(255, 83, 110, 151).withOpacity(0.9),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              elevation: 0,
-            ),
-            onPressed: onTap,
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 16, color: Colors.white),
-            ),
+    return SizedBox(
+      width: double.infinity,
+      height: 58,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor:
+              const Color.fromARGB(255, 83, 110, 151),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22),
+          ),
+          elevation: 4,
+        ),
+        onPressed: onTap,
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 17,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

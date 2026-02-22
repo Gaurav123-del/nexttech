@@ -29,4 +29,6 @@ flutter:
      - assets/images/doctor.png
      - assets/images/logo.png
      - assets/images/bg_shape.png
+     - assets/images/doctor.png
+     - assets/images/doctorni.png
      - assets/videos/intro.mp4

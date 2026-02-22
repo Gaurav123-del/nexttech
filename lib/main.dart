@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:rural_referral_app/screens/start_page.dart';
 

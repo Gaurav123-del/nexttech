@@ -28,54 +28,93 @@ class ConsultationHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 30, 20, 25),
+      padding: const EdgeInsets.fromLTRB(20, 25, 20, 25),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Color.fromARGB(255, 83, 110, 151),
             Color.fromARGB(255, 136, 143, 153),
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(35)),
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(35),
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.white,
-                child: Icon(Icons.person, color: Colors.blueGrey),
+
+      /// 🔥 STACK FIX (BIG IMAGE + CLEAN ALIGNMENT)
+      child: Stack(
+        children: [
+
+          /// 👩‍⚕️ DOCTOR IMAGE LEFT SIDE
+          Positioned(
+            left: 0,
+            top: 0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                "assets/images/doctorni.png",
+                height: 120,   // 👈 balanced size
+                fit: BoxFit.cover,
               ),
-              Spacer(),
-              Text(
-                "Consultation",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold),
-              ),
-              Spacer(),
-              Icon(Icons.menu, color: Colors.white, size: 32),
-            ],
+            ),
           ),
-          SizedBox(height: 22),
-          Text(
-            "Find Your Desired\nSpecialist",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold),
+
+          /// RIGHT SIDE CONTENT
+          Padding(
+            padding: const EdgeInsets.only(left: 12), // space for image
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                /// 🔹 TOP TITLE ROW
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Dr.Ryia Sharma",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.menu, color: Colors.white, size: 30),
+                  ],
+                ),
+
+                const SizedBox(height: 18),
+
+                /// 🔹 RIGHT ALIGNED TEXT
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Find Your Desired\nSpecialist",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 18),
+
+                /// 🔍 SEARCH BAR
+                const _SearchBar(),
+              ],
+            ),
           ),
-          SizedBox(height: 18),
-          _SearchBar(),
         ],
       ),
     );
   }
 }
-
 class _SearchBar extends StatelessWidget {
   const _SearchBar();
 

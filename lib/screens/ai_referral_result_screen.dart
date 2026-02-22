@@ -8,11 +8,10 @@ class AIReferralResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff9DA5B5),
-
       body: Stack(
         children: [
 
-          /// 🔥 SOFT GLASS BACKGROUND
+          /// 🔥 BACKGROUND
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -28,9 +27,10 @@ class AIReferralResultScreen extends StatelessWidget {
 
           Column(
             children: [
-              /// 🔵 PREMIUM GLASS HEADER
+
+              /// 🔵 HEADER
               Container(
-                height: 220,
+                height: 300,
                 width: double.infinity,
                 padding:
                     const EdgeInsets.only(top: 60, left: 20, right: 20),
@@ -44,54 +44,137 @@ class AIReferralResultScreen extends StatelessWidget {
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(45)),
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+
+                    const Text(
                       "AI Referral Results",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    SizedBox(height: 6),
-                    Text(
+
+                    const SizedBox(height: 6),
+
+                    const Text(
                       "Top 5 Recommended Hospitals",
                       style: TextStyle(color: Colors.white70),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    /// 🟢 UPDATED PREMIUM GLASS INFO CARD
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(28),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                            sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          height: 95,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 14),
+                          decoration: BoxDecoration(
+                            color:
+                                const Color.fromARGB(255, 198, 235, 209)
+                                    .withOpacity(0.9),
+                            borderRadius:
+                                BorderRadius.circular(28),
+                          ),
+                          child: Row(
+                            children: [
+
+                              /// ICON BOX
+                              Container(
+                                height: 58,
+                                width: 58,
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(
+                                      255, 168, 222, 188),
+                                  borderRadius:
+                                      BorderRadius.circular(18),
+                                ),
+                                child: const Icon(
+                                  Icons.health_and_safety,
+                                  color: Color(0xff2E7D32),
+                                  size: 32,
+                                ),
+                              ),
+
+                              const SizedBox(width: 14),
+
+                              /// TEXT
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Find Best Doctors Near You",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xff1B5E20),
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "AI recommends safest hospitals based on vitals",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              /// ⚪ GLASS RESULTS LIST
+              /// ⚪ RESULTS LIST
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(18),
                   children: const [
+
                     _HospitalCard(
                       hospitalName: "District Hospital A",
                       distance: "18 km • 22 min",
                       doctor: "Trauma Specialist Available",
                       risk: "LOW",
                     ),
+
                     _HospitalCard(
                       hospitalName: "Medical Center B",
                       distance: "12 km • 15 min",
                       doctor: "Cardiac Doctor Available",
                       risk: "MEDIUM",
                     ),
+
                     _HospitalCard(
                       hospitalName: "City Care Hospital",
                       distance: "25 km • 30 min",
                       doctor: "ICU Specialist Available",
                       risk: "LOW",
                     ),
+
                     _HospitalCard(
                       hospitalName: "Regional Health Hub",
                       distance: "32 km • 40 min",
                       doctor: "General Surgeon Available",
                       risk: "CRITICAL",
                     ),
+
                     _HospitalCard(
                       hospitalName: "Emergency Medical Unit",
                       distance: "10 km • 12 min",
@@ -109,7 +192,7 @@ class AIReferralResultScreen extends StatelessWidget {
   }
 }
 
-/// ⭐ GLASS HOSPITAL CARD
+/// ⭐ HOSPITAL CARD
 class _HospitalCard extends StatelessWidget {
   final String hospitalName;
   final String distance;
@@ -143,20 +226,20 @@ class _HospitalCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          /// 🏥 HEADER
           Row(
             children: [
               const CircleAvatar(
                 backgroundColor: Color(0xffE3F2FD),
-                child:
-                    Icon(Icons.local_hospital, color: Color(0xff536E97)),
+                child: Icon(Icons.local_hospital,
+                    color: Color(0xff536E97)),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
                   hospitalName,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
                 ),
               ),
               Container(
@@ -179,7 +262,6 @@ class _HospitalCard extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          /// 📍 DISTANCE
           Row(
             children: [
               const Icon(Icons.location_on,
@@ -192,10 +274,10 @@ class _HospitalCard extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          /// 👨‍⚕️ DOCTOR
           Row(
             children: [
-              const Icon(Icons.person, size: 18, color: Colors.grey),
+              const Icon(Icons.person,
+                  size: 18, color: Colors.grey),
               const SizedBox(width: 6),
               Text(doctor),
             ],
@@ -225,7 +307,7 @@ class _HospitalCard extends StatelessWidget {
   }
 }
 
-/// ⭐ GLASS CARD WRAPPER
+/// ⭐ GLASS CARD
 class GlassCard extends StatelessWidget {
   final Widget child;
   const GlassCard({required this.child, super.key});
@@ -242,9 +324,11 @@ class GlassCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.75),
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: Colors.white.withOpacity(0.4)),
+            border: Border.all(
+                color: Colors.white.withOpacity(0.4)),
             boxShadow: const [
-              BoxShadow(color: Colors.black12, blurRadius: 10),
+              BoxShadow(
+                  color: Colors.black12, blurRadius: 10),
             ],
           ),
           child: child,
@@ -254,7 +338,6 @@ class GlassCard extends StatelessWidget {
   }
 }
 
-/// 🧩 FACILITY CHIP
 class _FacilityChip extends StatelessWidget {
   final String text;
   const _FacilityChip(this.text);
